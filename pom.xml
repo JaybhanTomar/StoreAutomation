@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0"
          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
-                             http://maven.apache.org/xsd/maven-4.0.0.xsd">
+         xsi:schemaLocation="
+           http://maven.apache.org/POM/4.0.0
+           http://maven.apache.org/xsd/maven-4.0.0.xsd">
 
     <modelVersion>4.0.0</modelVersion>
 
@@ -10,35 +11,37 @@
     <artifactId>StoreAutomation</artifactId>
     <version>1.0-SNAPSHOT</version>
 
-    <!-- Centralized versions -->
+    <!-- ===================== -->
+    <!-- PROPERTIES -->
+    <!-- ===================== -->
     <properties>
-        <maven.compiler.source>17</maven.compiler.source>
-        <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <!-- dependency versions -->
-        <selenium.version>4.15.0</selenium.version>
-        <testng.version>7.8.0</testng.version>
-        <webdrivermanager.version>6.1.0</webdrivermanager.version>
+        <!-- Java -->
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
 
-        <!-- surefire plugin -->
-        <maven.surefire.plugin.version>3.1.2</maven.surefire.plugin.version>
+        <!-- Versions -->
+        <selenium.version>4.27.0</selenium.version>
+        <testng.version>7.9.0</testng.version>
+        <webdrivermanager.version>6.1.0</webdrivermanager.version>
+        <poi.version>5.2.5</poi.version>
+        <surefire.version>3.2.5</surefire.version>
     </properties>
 
+    <!-- ===================== -->
+    <!-- DEPENDENCIES -->
+    <!-- ===================== -->
     <dependencies>
-        <dependency>
-            <groupId>org.apache.poi</groupId>
-            <artifactId>poi-ooxml</artifactId>
-            <version>5.2.5</version>
-        </dependency>
+
         <!-- Selenium -->
         <dependency>
             <groupId>org.seleniumhq.selenium</groupId>
             <artifactId>selenium-java</artifactId>
-            <version>4.27.0</version>
+            <version>${selenium.version}</version>
         </dependency>
 
-        <!-- TestNG -->
+        <!-- TestNG (ONLY ONCE, TEST SCOPE) -->
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>
@@ -46,61 +49,67 @@
             <scope>test</scope>
         </dependency>
 
-        <!-- WebDriverManager: automatically handles driver binaries -->
+        <!-- WebDriverManager -->
         <dependency>
             <groupId>io.github.bonigarcia</groupId>
             <artifactId>webdrivermanager</artifactId>
             <version>${webdrivermanager.version}</version>
         </dependency>
+
+        <!-- Apache POI -->
         <dependency>
-            <groupId>junit</groupId>
-            <artifactId>junit</artifactId>
-            <version>RELEASE</version>
-            <scope>compile</scope>
+            <groupId>org.apache.poi</groupId>
+            <artifactId>poi-ooxml</artifactId>
+            <version>${poi.version}</version>
         </dependency>
+
+        <!-- Report -->
         <dependency>
-            <groupId>org.testng</groupId>
-            <artifactId>testng</artifactId>
-            <version>7.8.0</version>
-            <scope>compile</scope>
+            <groupId>com.aventstack</groupId>
+            <artifactId>extentreports</artifactId>
+            <version>5.1.1</version>
         </dependency>
+
 
     </dependencies>
 
+    <!-- ===================== -->
+    <!-- BUILD -->
+    <!-- ===================== -->
     <build>
         <plugins>
-            <!-- Compiler plugin (ensures Java 17 is used) -->
+
+            <!-- Java Compiler -->
             <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.11.0</version>
                 <configuration>
-                    <source>${maven.compiler.source}</source>
-                    <target>${maven.compiler.target}</target>
+                    <source>17</source>
+                    <target>17</target>
                 </configuration>
             </plugin>
 
-            <!-- Surefire plugin: runs TestNG tests -->
+            <!-- TestNG + Maven -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>${maven.surefire.plugin.version}</version>
+                <version>3.2.5</version>
+
                 <configuration>
-                    <!-- Use TestNG suite file (optional) -->
                     <suiteXmlFiles>
-                        <suiteXmlFile>src/test/resources/testng.xml</suiteXmlFile>
+                        <suiteXmlFile>testng.xml</suiteXmlFile>
                     </suiteXmlFiles>
 
-                    <!-- Include test classes ending with Test by default -->
-                    <includes>
-                        <include>**/*Test.java</include>
-                    </includes>
-
-                    <!-- show detailed test output -->
-                    <forkCount>1</forkCount>
-                    <reuseForks>true</reuseForks>
+                    <reportsDirectory>
+                        ${project.build.directory}/surefire-reports
+                    </reportsDirectory>
                 </configuration>
             </plugin>
+
+
         </plugins>
     </build>
+
 
 </project>

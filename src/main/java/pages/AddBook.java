@@ -21,6 +21,7 @@ public class AddBook {
         List<WebElement> raw = driver.findElements(tableRaws);
         for(WebElement r:raw){
             List<WebElement> col=r.findElements(By.className("rt-td"));
+            wait.WaitTillVissible(By.className("rt-td"));
             if(col.size()>0){
                 String actualbookName=col.get(1).getText();
                 if(actualbookName.contains(BookName)){

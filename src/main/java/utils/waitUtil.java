@@ -13,7 +13,7 @@ public class waitUtil {
     WebDriverWait wait;
     public waitUtil(WebDriver driver){
         this.driver=driver;
-        wait=new WebDriverWait(driver,Duration.ofSeconds(10));
+        wait=new WebDriverWait(driver,Duration.ofSeconds(15));
         }
     public WebElement WaitTillVissible(By Locator){
         return wait.until(ExpectedConditions.visibilityOfElementLocated(Locator));

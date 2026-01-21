@@ -4,6 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.JavascriptExecutor;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
+import utils.Scroleutil;
 import utils.TabHandler;
 import utils.waitUtil;
 
@@ -13,9 +14,11 @@ import java.time.Duration;
 public class SwitchWindows {
     WebDriver driver;
     waitUtil wait;
+    Scroleutil scrole;
     public SwitchWindows(WebDriver driver){
         this.driver=driver;
-        wait=new waitUtil(driver);
+        this.wait=new waitUtil(driver);
+        this.scrole=new Scroleutil(driver);
     }
     By NewTab=By.xpath("//button[@id='tabButton']");
     public void ClickonTab() throws InterruptedException {
@@ -23,16 +26,12 @@ public class SwitchWindows {
         TabHandler TB=new TabHandler(driver);
         // ✅ STORE parent ONCE
         String parentWindow = TB.getParentWindow();
+        scrole.ScrolTo(NewTab);
         wait.WaitTillClickable(NewTab).click();
-        JavascriptExecutor js = (JavascriptExecutor) driver;
-        js.executeScript(
-                "arguments[0].scrollIntoView(true);",
-                driver.findElement(NewTab)
-        );
 
         // ✅ USE STORED VALUE
         TB.switchToChildWindow(parentWindow);
-
+        scrole.ScrolTo(By.id("sampleHeading"));
         // work in child window
         wait.WaitTillVissible(By.id("sampleHeading"));
         System.out.println(driver.findElement(By.id("sampleHeading")).getText());

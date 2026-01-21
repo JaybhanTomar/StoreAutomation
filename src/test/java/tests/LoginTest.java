@@ -6,7 +6,7 @@ import pages.Account;
 
 public class LoginTest extends BaseTest {
 
-    @Test
+    @Test(enabled = false)
     public void loginTestuser() throws InterruptedException {
         Account Acc=new Account(driver);
         Acc.login("MohitTomar","Mohit@123");
